@@ -1,0 +1,135 @@
+// Reviews section styles
+.reviews {
+  padding: 4rem 0;
+  background-color: var(--bg-secondary);
+  
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  &__title {
+    text-align: center;
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+  
+  &__subtitle {
+    text-align: center;
+    font-size: var(--font-size-xl);
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+  
+  &__stats {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border-color);
+  }
+}
+
+.review-card {
+  background: var(--bg-primary);
+  padding: 2rem;
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+  }
+  
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  &__avatar {
+    font-size: 2.5rem;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    border-radius: 50%;
+  }
+  
+  &__info {
+    flex: 1;
+  }
+  
+  &__name {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+  
+  &__course {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+  
+  &__rating {
+    display: flex;
+    gap: 0.125rem;
+  }
+  
+  &__text {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-style: italic;
+  }
+}
+
+.review {
+  &__star {
+    font-size: var(--font-size-sm);
+    
+    &--filled {
+      opacity: 1;
+    }
+    
+    &:not(&--filled) {
+      opacity: 0.3;
+    }
+  }
+}
+
+.review-stat {
+  text-align: center;
+  
+  &__number {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+  }
+  
+  &__text {
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+  }
+}

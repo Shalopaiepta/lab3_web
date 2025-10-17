@@ -1,0 +1,141 @@
+// Responsive styles
+@media (max-width: 768px) {
+  .hero {
+    &__container {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      text-align: center;
+    }
+    
+    &__title {
+      font-size: var(--font-size-3xl);
+    }
+    
+    &__subtitle {
+      font-size: var(--font-size-lg);
+    }
+    
+    &__buttons {
+      justify-content: center;
+    }
+  }
+  
+  .nav {
+    &__container {
+      flex-direction: column;
+      height: auto;
+      padding: 1rem;
+      gap: 1rem;
+    }
+    
+    &__menu {
+      gap: 1rem;
+    }
+  }
+  
+  .features {
+    &__grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+  
+  .courses {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .contact {
+    &__content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    &__title {
+      font-size: var(--font-size-3xl);
+    }
+  }
+  
+  .services {
+    &__title {
+      font-size: var(--font-size-3xl);
+    }
+    
+    &__benefits {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .reviews {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+    
+    &__stats {
+      gap: 2rem;
+    }
+  }
+  
+  .footer {
+    &__content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 2rem 0;
+    
+    &__title {
+      font-size: var(--font-size-2xl);
+    }
+    
+    &__subtitle {
+      font-size: var(--font-size-base);
+    }
+    
+    &__buttons {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      
+      .btn {
+        width: 100%;
+        max-width: 250px;
+      }
+    }
+  }
+  
+  .features,
+  .reviews,
+  .services,
+  .contact {
+    padding: 2rem 0;
+  }
+  
+  .course-card,
+  .review-card,
+  .contact__form,
+  .contact__card {
+    padding: 1.5rem;
+  }
+  
+  .form__input,
+  .form__select,
+  .form__textarea {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: var(--font-size-sm);
+    
+    &--large {
+      padding: 0.75rem 1.5rem;
+      font-size: var(--font-size-base);
+    }
+  }
+}
