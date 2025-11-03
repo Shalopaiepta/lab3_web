@@ -1,40 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // 1. Импортируем axios
 
 function Reviews() {
-  const reviews = [
-    {
-      id: 1,
-      name: "Алексей, 14 лет",
-      course: "Основы Roblox Studio",
-      rating: 5,
-      text: "Супер курс! Теперь я умею создавать свои игры в Roblox. Учителя объясняют очень понятно, а задания интересные. Уже сделал свою первую игру про паркур!",
-      avatar: "👦"
-    },
-    {
-      id: 2,
-      name: "Мария, 16 лет",
-      course: "Программирование на Lua",
-      rating: 5,
-      text: "Отличная школа! Изучила Lua и теперь могу программировать сложные механики для игр. Особенно понравились уроки про создание квестов и систему инвентаря.",
-      avatar: "👧"
-    },
-    {
-      id: 3,
-      name: "Дмитрий, 12 лет",
-      course: "Основы Roblox Studio",
-      rating: 4,
-      text: "Мне очень понравилось учиться! Сначала было сложно, но преподаватели помогали. Теперь я могу строить крутые миры и добавлять в них разные предметы.",
-      avatar: "🧒"
-    },
-    {
-      id: 4,
-      name: "Анна, родитель",
-      course: "Отзыв родителя",
-      rating: 5,
-      text: "Ребенок в восторге от курсов! Видно, как он увлечен и с каждым днем узнает что-то новое. Преподаватели профессиональные, всегда на связи. Рекомендую!",
-      avatar: "👩"
-    }
-  ];
+  // 2. Убираем const reviews = [...] и создаем состояние
+  const [reviews, setReviews] = useState([]);
+
+  // 3. Загружаем данные при монтировании
+  useEffect(() => {
+    axios.get('http://localhost:5001/api/reviews')
+      .then(response => {
+        setReviews(response.data); // Сохраняем в состояние
+      })
+      .catch(error => console.error('Ошибка при загрузке отзывов:', error));
+  }, []); // [] = выполнить 1 раз
 
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, index) => (
@@ -56,26 +34,32 @@ function Reviews() {
         </p>
         
         <div className="reviews__grid">
-          {reviews.map(review => (
-            <div key={review.id} className="review-card">
-              <div className="review-card__header">
-                <div className="review-card__avatar">
-                  {review.avatar}
+          {/* 4. Рендерим отзывы из состояния (с бэкенда) */}
+          {reviews.length > 0 ? (
+            reviews.map(review => (
+              <div key={review.id} className="review-card">
+                <div className="review-card__header">
+                  <div className="review-card__avatar">
+                    {review.avatar}
+                  </div>
+                  <div className="review-card__info">
+                    <h4 className="review-card__name">{review.name}</h4>
+                    <p className="review-card__course">{review.course}</p>
+                  </div>
+                  <div className="review-card__rating">
+                    {renderStars(review.rating)}
+                  </div>
                 </div>
-                <div className="review-card__info">
-                  <h4 className="review-card__name">{review.name}</h4>
-                  <p className="review-card__course">{review.course}</p>
-                </div>
-                <div className="review-card__rating">
-                  {renderStars(review.rating)}
-                </div>
+                
+                <p className="review-card__text">
+                  "{review.text}"
+                </p>
               </div>
-              
-              <p className="review-card__text">
-                "{review.text}"
-              </p>
-            </div>
-          ))}
+            ))
+          ) : (
+            // 5. Показываем заглушку, пока данные грузятся
+            <p>Загрузка отзывов...</p>
+          )}
         </div>
 
         <div className="reviews__stats">

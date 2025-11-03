@@ -1,51 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios'; // 1. Импортируем axios
 
 function Services() {
-  const courses = [
-    {
-      id: 1,
-      title: "Основы Roblox Studio",
-      description: "Изучите интерфейс Roblox Studio, создайте свою первую игру",
-      duration: "4 недели",
-      level: "Начинающий",
-      price: "4,990 ₽",
-      features: [
-        "Знакомство с Roblox Studio",
-        "Создание базовых объектов",
-        "Работа с материалами и текстурами",
-        "Публикация игры"
-      ]
-    },
-    {
-      id: 2,
-      title: "Программирование на Lua",
-      description: "Освойте язык Lua для создания игровой логики в Roblox",
-      duration: "6 недель",
-      level: "Продвинутый",
-      price: "7,990 ₽",
-      features: [
-        "Синтаксис языка Lua",
-        "Работа с переменными и функциями",
-        "События и обработчики",
-        "Создание интерактивных элементов"
-      ]
-    },
-    {
-      id: 3,
-      title: "Создание многопользовательских игр",
-      description: "Разработайте полноценную многопользовательскую игру",
-      duration: "8 недель",
-      level: "Эксперт",
-      price: "12,990 ₽",
-      features: [
-        "Сетевое программирование",
-        "Система игроков",
-        "Чаты и коммуникация",
-        "Монетизация игры"
-      ]
-    }
-  ];
+  // 2. Убираем const courses = [...] и создаем состояние
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // 3. Используем useEffect для загрузки данных при старте
+  useEffect(() => {
+    // Наш бэкенд работает на 5001 порту
+    axios.get('http://localhost:5001/api/courses')
+      .then(response => {
+        setCourses(response.data); // Сохраняем данные с бэка в состояние
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Ошибка при загрузке курсов:', error);
+        setLoading(false);
+      });
+  }, []); // [] = выполнить 1 раз при монтировании
+
+  // 4. Показываем заглушку во время загрузки
+  if (loading) {
+    return (
+      <div className="services">
+        <div className="services__container">
+          <header className="services__header">
+            <h1 className="services__title">Наши курсы</h1>
+            <p className="services__subtitle">
+              Выберите подходящий курс для изучения программирования в Roblox
+            </p>
+          </header>
+          <div className="courses">
+            <div className="courses__grid">
+              <p>Загрузка курсов...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="services">
@@ -59,6 +54,7 @@ function Services() {
 
         <div className="courses">
           <div className="courses__grid">
+            {/* 5. Рендерим курсы, полученные из состояния (с бэкенда) */}
             {courses.map(course => (
               <div key={course.id} className="course-card">
                 <div className="course-card__header">
@@ -82,13 +78,20 @@ function Services() {
                   </div>
                 </div>
 
-                <ul className="course-card__features">
+                {/* !!! ВНИМАНИЕ !!!
+                  В нашем простом бэкенде мы не стали создавать
+                  отдельную таблицу для "features" (массив фич).
+                  Поэтому этого поля в `course` нет, и код ниже вызовет ошибку.
+                  Просто УДАЛИ или ЗАКОММЕНТИРУЙ этот блок <ul>...</ul>
+                */}
+                {/* <ul className="course-card__features">
                   {course.features.map((feature, index) => (
                     <li key={index} className="course-card__feature">
                       ✓ {feature}
                     </li>
                   ))}
                 </ul>
+                */}
 
                 <Link to="/contact" className="btn btn--primary course-card__btn">
                   Записаться на курс

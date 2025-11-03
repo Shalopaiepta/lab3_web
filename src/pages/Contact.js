@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios'; // 1. Импортируем axios
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -20,25 +21,42 @@ function Contact() {
     });
   };
 
-  const handleSubmit = (e) => {
+  // 2. Делаем handleSubmit асинхронным
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Здесь бы была интеграция с CRM
-    console.log('Заявка отправлена:', formData);
-    setSubmitted(true);
     
-    // Сброс формы через 3 секунды
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        course: '',
-        age: '',
-        experience: '',
-        message: ''
-      });
-    }, 3000);
+    try {
+      // 3. Отправляем данные на бэкенд
+      // Убедись, что бэкенд запущен на 5001
+      const response = await axios.post(
+        'http://localhost:5001/api/applications', 
+        formData // axios сам превратит это в JSON
+      );
+
+      // (Этот console.log можно оставить для отладки)
+      console.log('Сервер ответил:', response.data);
+      
+      setSubmitted(true);
+      
+      // Сброс формы через 3 секунды
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          course: '',
+          age: '',
+          experience: '',
+          message: ''
+        });
+      }, 3000);
+
+    } catch (error) {
+      console.error('Ошибка при отправке заявки:', error);
+      // Если бэкенд упал или выключен, мы увидим ошибку здесь
+      alert('Произошла ошибка при отправке. Попробуйте позже.');
+    }
   };
 
   if (submitted) {
